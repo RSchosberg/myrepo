@@ -8,7 +8,7 @@ library("kableExtra")
 
 # load iMatch exports
 
-sightings_raw <-  list.files(path = "//pccs-server/Aerial Survey/data/RW Plus - all years/R/data/2022", pattern = "*.csv", full.names = TRUE) %>% 
+sightings_raw <-  list.files(path = "//pccs-server/Aerial Survey/data/RW Plus - all years/Progress Reports/Annual Prog Report/July 1 2021 - June 30 2024/Figures", pattern = "*.csv", full.names = TRUE) %>% 
   lapply(read.csv) %>% 
   rbind.fill()
 
@@ -18,8 +18,8 @@ sightings <- sightings_raw %>%
   filter(nchar(Field_EGNO) >0 & Field_EGNO != "UNASSIGNED" & Field_EGNO != " " & Field_EGNO != "?") %>% 
   mutate(DATE = as.Date(paste(Year, Month, Day, sep = "-"), "%Y-%m-%d")) %>%
   filter((Month >= 1 & Month <=5) & Year > 2020) %>% 
-  filter(Platform == "A") %>% 
-  filter(Area != "SNE" & Area != "ACK")
+  #filter(Platform == "A") %>% 
+ #filter(Area != "SNE" & Area != "ACK")
 
 sightings <- egnos %>%  
   filter(nchar(Field_EGNO) >0 & Field_EGNO != "UNASSIGNED" & Field_EGNO != " " & Field_EGNO != "?") %>%
@@ -104,14 +104,14 @@ n_dc <-ggplot()+
   geom_point(aes(x=CCSdisco_year$survey, y = CCSdisco_year$disc, colour = CCSdisco_year$year), alpha = 0.5, size = 3)+
   geom_line(aes(x=CCSdisco_year$survey, y = CCSdisco_year$disc, colour = CCSdisco_year$year), alpha = 0.5, size = 1)+
   theme_bw()+
-  scale_color_brewer(palette = 'Set1', name = '')+
+  scale_color_brewer(palette = 'Set3', name = '')+
   xlab("")+
   ylab("Individual Right Whales")+
   theme(panel.grid.minor = element_blank(),
         legend.position="bottom", plot.title = element_text(hjust = 0.5))+
   #You're going to want to do your own x-axis breaks
-  scale_x_continuous(breaks = c(15,45,75,105,135), labels = c("Jan 15","Feb 15","Mar 15","Apr 15","May 15")) +
-  expand_limits(x = 135)
+  scale_x_continuous(breaks = c(-31,0,32,60,92,121,152), labels = c("Dec 1", "Jan 1","Feb 1","Mar 1","Apr 1","May 1","June 1")) +
+  expand_limits(x = -30)
 
 n_dc
 
@@ -127,3 +127,4 @@ CCSeff$Last<-format(CCSeff$Last,"%d %B")
 
 kable(CCSeff, "latex", booktabs = T, linesep = "") %>%
   kable_styling("striped", full_width = F)
+
